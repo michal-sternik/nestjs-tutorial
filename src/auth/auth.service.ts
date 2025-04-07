@@ -89,4 +89,9 @@ export class AuthService {
   async signOut(userId: number) {
     await this.authorService.updateRefreshToken(userId, null);
   }
+  async validateJwtUser(userId: number) {
+    const user = await this.authorService.getAuthorById(userId);
+    if (!user) throw new UnauthorizedException('User with such id not found.');
+    return user.role;
+  }
 }

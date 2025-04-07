@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { Book } from './book.entity';
 import * as bcrypt from 'bcrypt';
+import { Role } from 'src/auth/enums/role.enum';
 
 @Entity()
 export class Author {
@@ -24,6 +25,13 @@ export class Author {
 
   @Column()
   password: string;
+
+  @Column({
+    type: 'enum',
+    enum: Role,
+    default: Role.USER,
+  })
+  role: Role;
 
   @Column({ type: 'text', nullable: true })
   hashedRefreshToken: string | null;

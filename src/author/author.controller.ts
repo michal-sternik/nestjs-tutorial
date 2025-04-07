@@ -4,7 +4,6 @@ import {
   Get,
   Param,
   Post,
-  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -12,6 +11,9 @@ import { AuthorService } from './author.service';
 import { CreateAuthorDto } from './createAuthor.dto';
 import { GetAuthorDto } from './getAuthor.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { Role } from 'src/auth/enums/role.enum';
+import { Roles } from 'src/auth/decorators/role.decorator';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 
 @Controller('author')
 export class AuthorController {
@@ -32,6 +34,9 @@ export class AuthorController {
     return this.authorService.getAuthorById(authorDto.id);
   }
 
+  @Roles(Role.ADMIN, Role.USER)
+  @UseGuards(RolesGuard)
+  @UseGuards(AuthGuard('jwt'))
   @Get()
   getAllAuthors() {
     return this.authorService.getAll();
