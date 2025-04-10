@@ -30,7 +30,7 @@ export class AuthorController {
   }
 
   @Get(':id')
-  getAuthor(@Param() authorDto: GetAuthorDto) {
+  async getAuthor(@Param() authorDto: GetAuthorDto) {
     return this.authorService.getAuthorById(authorDto.id);
   }
 
